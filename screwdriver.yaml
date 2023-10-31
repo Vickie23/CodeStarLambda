@@ -24,6 +24,7 @@ jobs:
       - run_arbitrary_script: echo "Create your test here"
   qa_certify:
       requires: [~sd@2:qa_test]
+      steps:
       - run_arbitrary_script: echo "Create your test here"
   deploy_stg:
     requires: [~sd@2:qa_certify]
