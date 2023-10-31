@@ -13,26 +13,27 @@ jobs:
       - hello: echo $GREETING
       - set-metadata: meta set example.coverage 99.95
   deploy_qa:
-    requires: [main]
+    requires: [~sd@2:main]
     steps:
       - make_target: make greetings
       - get-metadata: meta get example
       - run_arbitrary_script: echo "Create your test here"
   qa_test:
-    requires: [main]
+    requires: [~sd@2:deploy_qa]
     steps:
       - run_arbitrary_script: echo "Create your test here"
   qa_certify:
+      requires: [~sd@2:qa_test]
       - run_arbitrary_script: echo "Create your test here"
   deploy_stg:
-    requires: [main]
+    requires: [~sd@2:qa_certify]
     steps:
       - run_arbitrary_script: echo "Create your test here"
   stg_test:
-    requires: [main]
+    requires: [~sd@2:deploy_stg]
     steps:
       - run_arbitrary_script: echo "Run your stg tests here"
   stg_certify:
-    requires: [main]
+    requires: [~sd@2:stg_test]
     steps:
       - run_arbitrary_script: echo "Stg Certify"
